@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.AdviseDao">
+
+
+	<select id="getListAdvise" resultType="Advise">
+		select * from Advise 
+	</select>
+	
+	<insert id="addAdvise" parameterType="Advise">
+	   insert into Advise values(seq.nextval,#{a_p_id},#{a_title},
+	   #{a_text},#{a_time})
+	</insert>
+	
+	
+	<select id="getusernameListAdvise" resultMap="Advise">
+		select Advise.*,person.* from advise,person where advise.a_p_id=person.p_id
+	</select>
+    <resultMap type="advise" id="Advise">
+		<id column="a_id" property="a_id" />
+		<result column="a_p_id" property="a_p_id" />
+		<result column="a_title" property="a_title" />
+		<result column="a_text" property="a_text" />
+		<result column="a_time" property="a_time" />
+
+	   <association property="person" javaType="Person">
+			<id column="p_id" property="p_id" />
+			<result column="p_name" property="p_name" />
+			<result column="P_mail" property="P_mail" />
+			<result column="p_phone" property="p_phone" />
+			
+			
+		</association> 
+
+	</resultMap>  
+	
+	<delete id="delete" parameterType="int">
+	   delete advise  where a_id=#{id}
+	</delete>
+	
+	
+</mapper>

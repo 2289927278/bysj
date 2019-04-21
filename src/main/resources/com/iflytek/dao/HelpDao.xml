@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.HelpDao">
+
+   <insert id="addHelp" parameterType="Help">
+	   insert into help values(seq.nextval,#{h_category},#{h_title},
+	   #{h_text},#{h_time})
+	</insert>
+
+	<select id="getHelp" resultType="Help">
+		select * from Help where h_id=#{id} 
+	</select>
+	
+	<select id="getListHelp" resultType="Help">
+		select * from help 
+	</select>
+	
+	<select id="getHelps" resultType="Help">
+		select * from help where h_category=#{h_category} order by h_time desc
+	</select>
+		
+
+	
+	<update id="updateHelp" parameterType="Help">
+	   update Help set h_category=#{h_category},h_title=#{h_title},h_text=#{h_text},h_time=#{h_time} where h_id=#{h_id}
+	</update>
+	
+
+	<delete id="deleteHelp" parameterType="int">
+	   delete help  where h_id=#{id}
+	</delete>
+	
+	<!-- 选择查询 -->
+	<select id="getSelectHelp" resultType="Help">
+		select * from Help 		
+			<where>		
+				<if test="h_title !=null and h_title !=''">
+					h_title like CONCAT(CONCAT('%', #{h_title}), '%') 
+				</if>		
+			</where>
+			order by h_time desc
+	</select>
+
+</mapper>

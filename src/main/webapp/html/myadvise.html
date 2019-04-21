@@ -1,0 +1,67 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+#butt:hover{
+		background-color: #FFB90F;
+		}
+	#font1{
+		position: absolute;
+		
+		
+	}
+</style>
+<script type="text/javascript">
+    KE.show({
+        id : 'content7',
+        cssPath : './index.css'
+    });
+  </script>
+  
+<script type="text/javascript">
+$(function(){
+	$("#butt").click(function(){
+		if($(".dfinput").val()==""){
+			alert("标题不能为空");
+			return false;
+		}
+		if($("#te").val()==""){
+			alert("内容不能为空");
+			return false;
+		}
+	});
+})
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 345			  
+	});
+	$(".select2").uedSelect({
+		width : 167  
+	});
+	$(".select3").uedSelect({
+		width : 100
+	});
+});
+</script>
+</head>
+
+<body>
+
+	
+    <div class="d1">
+    <!-- <div class="d2">Hi，<b></b>，欢迎您试用信息发布功能！</div><br />  -->
+   <form action="../advise/addadvise" method="post">
+      标题:<input name="a_title" type="text" class="dfinput" value=""  style="width:400px;margin-left: 45px;"/><br /> <br />
+  <font id="font1">投诉内容:</font><textarea id="te" name="a_text"  style="width:400px;height:100px;border: 1px solid gainsboro;margin-left: 70px;"></textarea> <br /><br />
+  
+    <input name="" type="submit"  value="确定" style="margin-left: 70px;" id="butt"/>
+     </form>
+	</div> 
+ 
+
+</body>
+</html>

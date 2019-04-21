@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		var CurrPage=1;
+		  var Pagenum=6;
+		  var Count;
+		  var CountPage;//总页数
+		$(function(){
+		
+      a();
+      $("#fontpage2").html(CurrPage);
+
+ });
+ 
+
+	
+	function a(){
+		
+		var path="../evaluate/getcarrierevaluate";
+
+		$.post(path,function(data){	
+			Count=data.length;//总数量
+			 CountPage=Math.ceil(Count/6);
+			 $("#fontpage1").html(CountPage);
+			if(data===null){
+				var string="<thead><tr><th>序号</th><th>交易订单号</th><th>评价内容</th><th>时间</th></tr></thead>";
+				$(".tablelist").html(string);
+				$("td").css("border","solid 1px #d7a372");
+			}else{
+				var string="<thead><tr><th>序号</th><th>交易订单号</th><th>评价内容</th><th>时间</th></tr></thead>";
+				for(var  i=6*(CurrPage-1);i<=6*CurrPage-1;i++){	
+					if(i<=Count-1&&i>=0){
+					var num=i+1;
+				    var id=data[i].e_id;				
+					var d_number=data[i].deal.d_number;
+					var e_text=data[i].e_text;
+					var e_time=data[i].e_time;
+					
+					string+="<tbody><tr><td>"+num+"</td><td>"+d_number+"</td><td><input value="+e_text+" id=textr/></td><td>"+e_time+"</td><tr></tbody>";						
+				}}
+				$(".tablelist").html(string);
+				$("td").css("border","solid 1px #d7a372");
+			}
+			
+		
+			
+	    },"json")			 		
+ 	}
+		   
+	 $(function(){	         					
+			$(".page1").on("click",function(){
+				var s=$(this).attr("id");
+				if(s=="shou"){
+					CurrPage=1;
+					$("#fontpage2").html(CurrPage);
+					a();
+				}
+				if(s=="wei"){
+					CurrPage=CountPage;	
+					$("#fontpage2").html(CurrPage);
+					a();
+				}
+				if(s=="shang"){
+					if(CurrPage>1){
+					
+					CurrPage=CurrPage-1;
+					$("#fontpage2").html(CurrPage);
+					
+					a();
+					}
+				}
+				if(s=="xia"){
+					if(CurrPage<CountPage){
+				
+					CurrPage=CurrPage+1;
+					$("#fontpage2").html(CurrPage);
+					
+					a();
+					}
+				}
+				
+			});	  		
+	});	
+   </script>
+	</head>
+	<body>
+		<table class="tablelist">
+		</table>
+		 <div id="d2_3_1">共<font id="fontpage1"></font>	页;当前为<font id="fontpage2"></font>页 
+			   	    <button id="shou" class="page1">首页</button><button id="shang" class="page1">上一页</button>
+			   	    <button id="xia" class="page1">下一页</button> <button id="wei" class="page1">尾页</button>
+			          
+			    </div>
+	</body>
+</html>

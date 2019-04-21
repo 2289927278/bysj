@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		.xiu{
+     background-color: #F4A460;
+	color: white;
+	border-radius:30px;
+	padding-left:5px;
+	padding: 7px;
+   }
+   
+  .xiu:hover{
+     
+	 background-color: #FFB90F;
+	
+   }
+		 
+ 
+		</style>
+		<script type="text/javascript">
+		var CurrPage=1;
+		  var Pagenum=6;
+		  var Count;
+		  var CountPage;//总页数
+		
+		 $(function(){
+			 $("#fontpage2").html(CurrPage);
+	       a();
+	       $("#fontpage2").html(CurrPage);
+	   });
+	   
+
+	  	
+	  	function a(){	
+	  		var path="../talk/getTalkB"; 					  		 
+	  		$.post(path,function(data){	
+	  			Count=data.length;//总数量
+				 CountPage=Math.ceil(Count/6);
+	 			 $("#fontpage1").html(CountPage);
+	  		var string="<thead><tr><th>序号</th><th>发送人</th><th>标题</th><th>内容</th><th>时间</th><th>操作</th></tr></thead>";
+	  			for(i=6*(CurrPage-1);i<=6*CurrPage-1;i++){
+	 				if(i<=Count-1&&i>=0){			
+	  				var num=i+1;
+	  				var id=data[i].t_id;
+	  			    var name=data[i].businesser.b_companyname;	  			  
+	  				var t_title=data[i].t_title;
+	  				var t_text=data[i].t_text;  			
+	  				var t_time=data[i].t_time;	  				
+	  				
+	  				var delet="<td class=delete id="+id+"><font class=xiu>删除</font></td>";
+	  				string+="<tbody><tr><td>"+num+"</td><td>"+name+"</td><td>"+t_title+"</td><td>"+t_text+"</td><td>"+t_time+"</td>"+delet+"<tr></tbody>";	
+	  			}}
+	  			$(".tablelist").html(string);
+	  			$("td").css("border","solid 1px #d7a372");
+	  			
+	  	    },"json")			 		
+	   	}
+	  	
+	  	
+	  	 $(function(){
+	  		$(".tablelist").on("click",".delete",function(){	
+	  	 		var id=$(this).attr("id");			
+	  	 		var falg=confirm("你确定删除吗");
+	  	 				if(falg==false){
+	  	 					return false;
+	  	 				}else{
+	  	 					var paths="../talk/deleteTalper";
+	  	 					$.post(paths,{"id":id},function(data){
+	  	 					 Count=data.length;//总数量
+	  						 CountPage=Math.ceil(Count/6);
+	  			 			 $("#fontpage1").html(CountPage);
+	  	 						var string="<thead><tr><th>序号</th><th>发送人</th><th>标题</th><th>内容</th><th>时间</th><th>操作</th></tr></thead>";
+	  			            for(i=6*(CurrPage-1);i<=6*CurrPage-1;i++){
+	  			 				if(i<=Count-1&&i>=0){		
+	  				         var num=i+1;
+	  				         var id=data[i].t_id;
+	  			             var name=data[i].businesser.b_companyname;	  			  
+	  				         var t_title=data[i].t_title;
+	  				         var t_text=data[i].t_text;  			
+	  				            var t_time=data[i].t_time;	  				
+	  				          var delet="<td class=delete id="+id+"><font class=xiu>删除</font></td>";
+	  				         string+="<tbody><tr><td>"+num+"</td><td>"+name+"</td><td>"+t_title+"</td><td>"+t_text+"</td><td>"+t_time+"</td>"+delet+"<tr></tbody>";	
+	  			}}
+	  	 						$(".tablelist").html(string);
+	  	 										
+	  	 					},"json");
+	  	 		}
+	  		
+	  	 	});					       
+	  	});
+ 
+	  	 $(function(){	         					
+				$(".page1").on("click",function(){
+					var s=$(this).attr("id");
+					if(s=="shou"){
+						CurrPage=1;
+						$("#fontpage2").html(CurrPage);
+						a();
+					}
+					if(s=="wei"){
+						CurrPage=CountPage;	
+						$("#fontpage2").html(CurrPage);
+						a();
+					}
+					if(s=="shang"){
+						if(CurrPage>1){
+						
+						CurrPage=CurrPage-1;
+						$("#fontpage2").html(CurrPage);
+						
+						a();
+						}
+					}
+					if(s=="xia"){
+						if(CurrPage<CountPage){
+					
+						CurrPage=CurrPage+1;
+						$("#fontpage2").html(CurrPage);
+						
+						a();
+						}
+					}
+					
+				});	  		
+		});	
+   </script>
+	</head>
+	<body>
+		<table class="tablelist ">
+		
+		</table>
+		<div id="d2_3_1">共<font id="fontpage1"></font>	页;当前为<font id="fontpage2"></font>页 
+			   	    <button id="shou" class="page1">首页</button><button id="shang" class="page1">上一页</button>
+			   	    <button id="xia" class="page1">下一页</button> <button id="wei" class="page1">尾页</button>
+			          
+			    </div>
+	</body>
+</html>

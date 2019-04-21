@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		/* $(function(){	
+           a();
+          });
+ 
+
+	
+	function a(){
+		
+		var path="../talk/getManagerTalk";
+
+		$.post(path,function(data){			
+		var string="<thead><tr><th>序号</th><th>内容</th><th>时间</th><th>操作A</th></tr></thead>";
+			for(var  i=0;i<data.length;i++){			
+				var num=i+1;
+			    var id=data[i].t_id;				
+				
+				var e_text=data[i].t_text;
+				var e_time=data[i].t_time;
+				var delet="<td class=delete id="+id+">删除</td>";
+				string+="<tbody><tr><td>"+num+"</td><td>"+e_text+"</td><td>"+e_time+"</td></td>"+delet+"<tr></tbody>";						
+			}
+			$(".tablelist").html(string);
+			$("td").css("border","solid 1px #d7a372");
+			
+	    },"json")			 		
+ 	}
+
+ 
+
+	
+$(function(){
+	$(".tablelist").on("click",".delete",function(){	
+ 		var id=$(this).attr("id");			
+ 		var falg=confirm("你确定删除吗");
+ 				if(falg==false){
+ 					return false;
+ 				}else{
+ 					var paths="../talk/carrierdeleteTalk";
+ 					$.post(paths,{"id":id},function(data){
+ 			var string="<thead><tr><th>序号</th><th>内容</th><th>时间</th><th>操作A</th></tr></thead>";
+			for(var  i=0;i<data.length;i++){			
+				var num=i+1;
+			    var id=data[i].t_id;				
+				
+				var e_text=data[i].t_text;
+				var e_time=data[i].t_time;
+				var delet="<td class=delete id="+id+">删除</td>";
+				string+="<tbody><tr><td>"+num+"</td><td>"+e_text+"</td><td>"+e_time+"</td></td>"+delet+"<tr></tbody>";						
+			}
+			$(".tablelist").html(string);
+			$("td").css("border","solid 1px #d7a372");
+			
+ 										
+ 			},"json");
+ 		}
+	
+ 	});					       
+	
+}); */
+
+$(function(){
+	var path="../charge/getCharge";
+
+	$.post(path,function(data){	
+		
+	var string="<thead><tr><th>商家名称</th><th>最低收费</th><th>起步重量</th><th>每公斤金额</th><th>时间</th></tr></thead>";
+							
+		    var id=data.t_id;
+		    var name=data.c_b_name;
+			var c_pay=data.c_pay;
+			var c_weight=data.c_weight;
+			var c_add=data.c_add;
+			var c_time=data.c_time;
+			var delet="<td class=delete id="+id+">删除</td>";
+			string+="<tbody><tr><td>"+name+"</td><td>"+c_pay+"</td><td>"+c_weight+"</td><td>"+c_add+"</td><td>"+c_time+"</td><tr></tbody>";						
+		
+		$(".tablelist").html(string);
+		$("td").css("border","solid 1px #d7a372");
+		
+    },"json")	
+});
+
+
+
+   </script>
+	</head>
+	<body>
+		<table class="tablelist">
+		</table>
+	</body>
+</html>

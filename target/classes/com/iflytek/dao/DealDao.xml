@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.DealDao">
+
+	
+
+   <insert id="addDeal" parameterType="Deal">
+	   insert into deal values(seq.nextval,#{d_number},'待接收',
+	   #{d_p_id},#{d_b_id},#{d_weight},#{d_price},#{d_frommail},#{d_fromname},
+	   #{d_fromphone},#{d_fromtelephone},#{d_fromaddress},#{d_tomail},#{d_toname},#{d_tophone},#{d_totelephone},
+	   #{d_toaddress},sysdate,#{d_remark},'t','t')
+	</insert>
+
+	<select id="getDeal" resultType="Deal">
+		select * from Deal where d_id=#{id} 
+	</select>
+	
+	<select id="getDealA" resultType="Deal">
+		select * from Deal where d_p_id=#{d_p_id} and d_flags='t'
+	</select>
+	
+	<select id="getDealB" resultType="Deal">
+		select * from Deal where d_b_id=#{d_b_id} and d_flag='t'
+	</select>
+	
+	<select id="getListDeal" resultType="Deal">
+		select * from Deal 
+	</select>
+	
+	<update id="updateState" parameterType="Deal">
+	   update deal set d_state=#{d_state} where d_id=#{id}
+	</update>
+	
+	
+	<delete id="truedelete" parameterType="Deal">
+	   delete deal where d_id=#{id}
+	</delete>
+
+ <!-- 逻辑删除订单 -->
+	<update id="deleteDeal" parameterType="Deal">
+	   update deal set d_flag='f' where d_id=#{id}
+	</update>
+	
+	<!-- 用户逻辑删除订单 -->
+	<update id="deleteDeals" parameterType="Deal">
+	   update deal set d_flags='f' where d_id=#{id}
+	</update>
+	<!-- 选择查询交易订单 -->
+	<select id="getSelectDeal" resultType="deal">
+		select * from deal 		
+			<where>		
+				<if test="d_state !=null and d_state !=''">						
+					d_state =#{d_state} and
+				</if>
+				<if test="d_number !=null and d_number !=''">
+					d_number like CONCAT(CONCAT('%', #{d_number}), '%') and
+				</if>	
+				d_flag='t'		
+			</where>
+	</select>
+	<select id="getSelectDealBus" resultType="deal">
+		select * from deal 		
+			<where>		
+				<if test="d_state !=null and d_state !=''">						
+					d_state =#{d_state} and
+				</if>
+				<if test="d_number !=null and d_number !=''">
+					d_number like CONCAT(CONCAT('%', #{d_number}), '%') and
+				</if>	
+				d_flag='t'	and d_b_id=#{id}
+			</where>
+	</select>
+	
+
+</mapper>

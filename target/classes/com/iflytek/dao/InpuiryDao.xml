@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.InquiryDao">
+
+	
+
+   <insert id="addInquiry" parameterType="Inquiry">
+	   insert into Inquiry values(seq.nextval,#{i_number},#{i_instruction},#{i_time},#{i_b_id})
+	</insert>
+
+	<select id="getInquiry" resultType="Inquiry">
+		select * from Inquiry where i_id=#{id} 
+	</select>
+	
+	
+	<select id="getSomeInquiry" resultType="Inquiry">
+		select * from Inquiry where i_b_id=#{id} 
+	</select>
+	
+	
+	<select id="getI_number" resultType="Inquiry">
+		select * from Inquiry where i_number=#{i_number} order by i_time desc
+	</select>
+	
+	
+	<!-- 选择查询 -->
+	<select id="getInquiryA" resultType="Inquiry">
+		select * from Inquiry 		
+			<where>		
+				<if test="i_number !=null and i_number !=''">
+					i_number like CONCAT(CONCAT('%', #{i_number}), '%') and
+				</if>	
+				i_b_id=#{i_b_id}	
+			</where>
+			order by i_time desc
+	</select>
+	
+	
+	
+	<select id="getListInquiry" resultType="Inquiry">
+		select * from Inquiry 
+	</select>
+
+
+	<delete id="deleteInquiry" parameterType="int">
+	   delete Inquiry  where i_id=#{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#chargebtn").click(function(){
+		var code1=/^[0-9].*$/;
+		  if(!code1.test($("#c_pay").val())){
+			  alert("请输入正确的价格");
+			  return false;
+		  }
+		  
+		  if(!code1.test($("#c_weight").val())){
+			  alert("请输入正确的重量");
+			  return false;
+		  }
+		  if(!code1.test($("#c_add").val())){
+			  alert("请输入正确的每公斤金额");
+			  return false;
+		  }
+		  
+		  $("#chargeform").submit();
+	});
+			});
+		</script>
+	</head>
+	
+	<body>
+		<div class="formtitlecarriera"><span>收费信息：</span>
+             <form method="post" action="../charge/addcharge" id="chargeform"> 
+             <ul class="forminfo">              	
+             <li><label>收费名称</label><input name="c_name" type="text" class="dfinput" id="c_name" /></li>   
+             <li><label>最低收费</label><input name="c_pay" type="text" class="dfinput" id="c_pay" placeholder="单位/元" /></li>
+             <li><label>起步重量</label><input name="c_weight" type="text" class="dfinput" id="c_weight"  placeholder="单位/公斤" /></li>   
+             <li><label>每公斤金额</label><input name="c_add" type="text" class="dfinput" value=""  id="c_add" placeholder="单位/元" /></li>
+             <li><label>备注</label><textarea name="c_remark" cols="" rows="" class="textinput" id="c_remark"></textarea></li> 
+             <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存" id="chargebtn"/></li>      
+             </ul>
+             </form>
+             </div>
+	</body>
+</html>

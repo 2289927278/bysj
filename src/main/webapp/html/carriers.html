@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+$(function() {
+var path = "../businesser/getBusinesserper";
+$.post(path, function(date) {
+	var b_companyname = date.b_companyname;
+	$("#b_companyname").val(b_companyname);
+	
+	var b_shorter = date.b_shorter;
+	$("#b_shorter").val(b_shorter);
+	
+	var b_address = date.b_address;
+	$("#b_address").val(b_address);
+	
+	var b_postalcode=date.b_postalcode;
+	$("#b_postalcode").val(b_postalcode);
+	
+	var b_companyphone = date.b_companyphone;
+	$("#b_companyphone").val(b_companyphone);
+	
+	var b_fax = date.b_fax;
+	$("#b_fax").val(b_fax);
+	
+	var b_representative = date.b_representative;
+	$("#b_representative").val(b_representative);
+	
+	var b_tax = date.b_tax;
+	$("#b_tax").val(b_tax);
+	
+	var b_introduce=date.b_introduce;
+	$("#b_introduce").val(b_introduce);
+	
+}, "json");
+
+$(".btn").click(function() {
+	
+	return confirm("你确定要修改信息吗");
+	$("#f").submit();
+});
+});
+
+
+</script>
+	</head>
+	<body>
+	 <form action="../businesser/updatebusinesserb" method="post" id="f" > 
+		 <ul class="forminfo">              	
+             <li><label>公司名称</label><input readonly="readonly" name="b_companyname" type="text" class="dfinput" id="b_companyname" /></li>   
+             <li><label>公司简称</label><input readonly="readonly" name="b_shorter" type="text" class="dfinput" id="b_shorter"  /></li>
+              <li><label>办公地址</label><input readonly="readonly" name="b_address" type="text" class="dfinput"   id="b_address"  /></li>
+             <li><label>邮政编码</label><input readonly="readonly" name="b_postalcode" type="text" class="dfinput" id="b_postalcode"   /></li>           
+              <li><label>公司电话</label><input readonly="readonly" name="b_companyphone" readonly="readonly" type="text" class="dfinput" id="b_companyphone"  /></li>   
+             <li><label>公司传真</label><input readonly="readonly" name="b_fax" type="text" class="dfinput" value=""  id="b_fax" /></li>  
+              <li><label>法定代表人</label><input readonly="readonly" name="b_representative" type="text" class="dfinput"   id="b_representative"  /></li>
+             <li><label>税务登记号</label><input readonly="readonly" name="b_tax" type="text" class="dfinput" id="b_tax"   /></li>             
+              <li><label>公司介绍</label><input name="b_introduce"  type="text" class="dfinput" id="b_introduce"  /></li>              
+             <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认" id="chargebtn"/></li>      
+             </ul>
+            
+	 </form>
+		 
+	</body>
+</html>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.NewsDao">
+
+   <insert id="addNews" parameterType="News">
+	   insert into News values(seq.nextval,#{n_b_id},#{n_title},#{n_text},#{n_time})
+	</insert>
+
+	<select id="getNews" resultType="News">
+		select * from News where n_id=#{id} 
+	</select>
+	
+	<select id="getNewsA" resultType="News">
+		select * from News where n_b_id=#{n_b_id} order by n_time desc
+	</select>
+	
+	<select id="getListNews" resultType="News">
+		select * from News order by n_time desc
+	</select>
+	
+	
+	<delete id="deleteNews" parameterType="int">
+	   delete News  where n_id=#{id}
+	</delete>
+
+</mapper>

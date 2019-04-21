@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.EvaluateDao">
+
+	
+
+   <insert id="addEvaluate" parameterType="Evaluate">
+	   insert into Evaluate values(seq.nextval,#{e_d_id},#{e_text},#{e_time})
+	</insert>
+
+	<select id="getEvaluate" resultType="Evaluate">
+		select * from Evaluate where e_id=#{id} 
+	</select>
+
+   <select id="getEvaluateA" resultMap="evaluate">
+		select Evaluate.*,Deal.* from Evaluate,Deal where Evaluate.e_d_id=Deal.d_id and Deal.d_p_id=#{id}
+	</select>
+    <resultMap type="Evaluate" id="evaluate">
+		<id column="e_id" property="e_id" />
+		<result column="e_d_id" property="e_d_id" />
+		<result column="e_text" property="e_text" />
+		<result column="e_time" property="e_time" />
+
+	   <association property="deal" javaType="Deal">
+			<id column="d_id" property="d_id" />
+			<result column="d_number" property="d_number" />
+			<result column="d_state" property="d_state" />
+			<result column="d_p_id" property="d_p_id" />
+			<result column="d_b_id" property="d_b_id" />
+			<!-- <result column="d_weight" property="d_weight" />
+			<result column="d_price" property="d_price" />
+			<result column="d_frommail" property="d_frommail" />
+			<result column="d_fromname" property="d_fromname" />
+			<result column="d_fromphone" property="d_fromphone" />
+			<result column="d_fromtelephone" property="d_fromtelephone" />
+			<result column="d_fromaddress" property="d_fromaddress" />
+			<result column="d_tomail" property="d_tomail" />
+			<result column="d_toname" property="d_toname" />
+			<result column="d_tophone" property="d_tophone" />
+			<result column="d_totelephone" property="d_totelephone" />
+			<result column="d_toaddress" property="d_toaddress" />
+			<result column="d_time" property="d_time" />
+			<result column="d_remark" property="d_remark" />
+			<result column="d_flag" property="d_flag" /> -->
+		</association> 
+
+	</resultMap>  
+	
+	
+	
+	
+	<select id="getEvaluateB" resultMap="Evaluate">
+		select Evaluate.*,Deal.* from Evaluate,Deal where Evaluate.e_d_id=Deal.d_id and Deal.d_b_id=#{id}
+	</select>
+    <resultMap type="Evaluate" id="Evaluate">
+		<id column="e_id" property="e_id" />
+		<result column="e_d_id" property="e_d_id" />
+		<result column="e_text" property="e_text" />
+		<result column="e_time" property="e_time" />
+
+	   <association property="deal" javaType="Deal">
+			<id column="d_id" property="d_id" />
+			<result column="d_number" property="d_number" />
+			<result column="d_state" property="d_state" />
+			<result column="d_p_id" property="d_p_id" />
+			<result column="d_b_id" property="d_b_id" />
+			<!-- <result column="d_weight" property="d_weight" />
+			<result column="d_price" property="d_price" />
+			<result column="d_frommail" property="d_frommail" />
+			<result column="d_fromname" property="d_fromname" />
+			<result column="d_fromphone" property="d_fromphone" />
+			<result column="d_fromtelephone" property="d_fromtelephone" />
+			<result column="d_fromaddress" property="d_fromaddress" />
+			<result column="d_tomail" property="d_tomail" />
+			<result column="d_toname" property="d_toname" />
+			<result column="d_tophone" property="d_tophone" />
+			<result column="d_totelephone" property="d_totelephone" />
+			<result column="d_toaddress" property="d_toaddress" />
+			<result column="d_time" property="d_time" />
+			<result column="d_remark" property="d_remark" />
+			<result column="d_flag" property="d_flag" /> -->
+		</association> 
+
+	</resultMap>  
+
+
+	<!-- <select id="getEvaluateB" resultType="Evaluate">
+		select * from Evaluate where e_b_id=#{e_b_id} 
+	</select> -->
+	
+	<select id="getListEvaluate" resultType="Evaluate">
+		select * from Evaluate 
+	</select>
+
+
+	<delete id="deleteEvaluate" parameterType="int">
+	   delete Evaluate  where e_id=#{id}
+	</delete>
+
+</mapper>

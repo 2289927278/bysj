@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		#personalsubmit:hover{
+		background-color: #FFB90F;
+		}
+		</style>
+		<script type="text/javascript">
+$(function() {
+var path = "../Person/getPersonal";
+$.post(path, function(date) {
+	var name = date.p_name;
+	$("#name").val(name);
+	var password = date.p_password;
+	$("#password").val(password);
+	var passwords = date.p_passwords;
+	$("#passwords").val(passwords);
+	var mail = date.p_mail;
+	$("#mails").val(mail);
+	var phone = date.p_phone;
+	$("#phone").val(phone);
+	var time = date.p_time;
+	$("#time").val(time);
+
+}, "json");
+
+$("#personalsubmit").click(function() {
+	var code1 = /^[A-Za-z0-9\u4e00-\u9fa5]{2,8}$/;
+	if (!code1.test($("#name").val())) {
+		alert("用户名为2-8个字符");
+		return false;
+	}
+
+	var code2 = /^[A-Za-z0-9]{5,10}$/;
+	if (!code2.test($("#password").val())) {
+		alert("密码为5-10个非汉字组成");
+		return false;
+	}
+	var pas1 = $("#password").val();
+	var pas2 = $("#passwords").val();
+	if (pas1 != (pas2)) {
+		alert("两次密码必须一致");
+		return false;
+	}
+	return confirm("你确定要修改信息吗");
+	$("#updatepersonal").submit();
+});
+});
+
+
+</script>
+	</head>
+	<body>
+		 <form action="../Person/updatePerson" method="post" id="updatepersonal">
+						<ul>
+							<li><span>用户名：</span> <input name="name" type="text"
+								 id="name"  value=""></li>							
+							<li><span>密码：</span> <input name="password" type="password"
+								 id="password" value=""></li>
+							<li><span>确认密码：</span> <input name="passwords"
+								type="password"  id="passwords" value="">
+							</li>
+							<li><span>电子邮箱：</span> <input name="mail" type="text"
+								 id="mails" readonly="readonly" value=""></li>
+							 <li><span>手机号：</span> <input name="phone" type="text"
+								 id="phone" readonly="readonly" value=""></li>
+						     <li><span>注册时间：</span> <input name="time" type="text"
+								 id="time" readonly="readonly" value=""></li>							
+							<li><span></span> <input name="submit" type="submit"
+								value="确定修改" id="personalsubmit"></li>
+						</ul>
+						</form>
+	</body>
+</html>

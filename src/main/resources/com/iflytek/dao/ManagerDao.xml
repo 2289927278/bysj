@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.ManagerDao">
+	
+	<select id="setLogin" resultType="Manager">
+		select * from manager where m_password=#{password} and m_mail=#{mail}
+	</select>
+	
+	<update id="updateManager" parameterType="Manager">
+	   update Manager set m_name=#{m_name},m_password=#{m_password},m_mail=#{m_mail} where m_id=#{m_id}
+	</update>
+	
+	
+	<select id="getManager" resultType="Manager">
+		select * from manager where m_id=#{id} 
+	</select>
+		
+</mapper>

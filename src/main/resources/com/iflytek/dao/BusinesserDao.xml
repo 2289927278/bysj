@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.BusinesserDao">
+	<select id="getBusinesser" resultType="Businesser">
+		select * from Businesser where b_id=#{id} and b_state=2
+	</select>
+	
+	<select id="getListBusinesser" resultType="Businesser">
+		select * from Businesser where b_state=2
+	</select>
+	
+	<select id="getSomeBusinesser" resultType="Businesser">
+		select * from Businesser where b_application=#{app} and b_state=2
+	</select>
+	
+	<select id="login" resultType="Businesser">
+		select * from Businesser where b_password=#{password} and b_mail=#{name} 
+		 and b_application='审请通过'
+	</select>
+	 
+	<insert id="register" parameterType="Businesser">
+	   insert into Businesser values(seq.nextval,#{b_name},#{b_password},
+	   #{b_phone},#{b_telephone},#{b_companyname},#{b_shorter},#{b_address},#{b_postalcode},
+	   #{b_companyphone},#{b_fax},#{b_representative},#{b_tax},#{b_mail},#{b_introduce},'审请中',2,60,sysdate,#{b_tuname})
+	</insert>
+	
+	<update id="updateBusinesser" parameterType="Businesser">
+	   update Businesser set b_name=#{b_name},b_password=#{b_password},b_phone=#{b_phone},b_telephone=#{b_telephone},
+	   b_companyname=#{b_companyname},b_shorter=#{b_shorter},b_address=#{b_address},b_postalcode=#{b_postalcode},
+	   b_companyphone=#{b_companyphone},b_fax=#{b_fax},b_representative=#{b_representative},b_tax=#{b_tax},
+	   b_mail=#{b_mail},b_introduce=#{b_introduce},2,b_application=#{b_application} where p_id=#{p_id}
+	</update>
+	
+	<update id="updateBusinessera" parameterType="Businesser">
+	   update Businesser set b_name=#{b_name},b_password=#{b_password},b_telephone=#{b_telephone} where b_id=#{b_id}
+	</update>
+	
+	<update id="updateBusinesserb" parameterType="Businesser">
+	   update Businesser set b_introduce=#{b_introduce} where b_id=#{b_id}
+	</update>
+	<update id="updateApplication" parameterType="Businesser">
+	   update Businesser set b_application=#{app} where b_id=#{id}
+	</update>
+	
+<!-- 逻辑删除用户 -->
+	<update id="deleteBusinesser" parameterType="int">
+	   update Businesser set b_state=0 where b_id=#{b_id}
+	</update>
+	
+	<!-- 选择查询承运商 -->
+	<select id="getSelectBusinesser" resultType="businesser">
+		select * from Businesser 		
+			<where>		
+				<if test="b_application !=null and b_application !=''">						
+					b_application =#{b_application} and
+				</if>
+				<if test="b_companyname !=null and b_companyname !=''">
+					b_companyname like CONCAT(CONCAT('%', #{b_companyname}), '%') and
+				</if>
+				b_state=2
+			</where>
+	</select>
+
+</mapper>

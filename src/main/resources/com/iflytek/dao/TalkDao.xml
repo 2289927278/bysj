@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.TalkDao">
+
+	
+
+   <insert id="addTalk" parameterType="Talk">
+	   insert into Talk values(seq.nextval,#{t_fromid},#{t_toid},#{t_text},#{t_time},#{t_title},'t','t')
+	</insert>
+
+	<select id="getTalk" resultType="Talk">
+		select * from Talk where t_id=#{id} 
+	</select>
+	
+	<select id="getTalkA" resultType="Talk">
+		select * from Talk where t_fromid=#{t_fromid} 
+	</select>
+	
+	<select id="getManagerTalk" resultType="Talk">
+		select * from Talk where t_toid=#{t_toid} 
+	</select>
+	
+	 <select id="getTalkB" resultMap="talk">
+		select talk.*,businesser.* from talk,businesser where talk.t_fromid=businesser.b_id and talk.t_toid=#{t_toid} and talk.t_flagper='t' order by t_time desc
+	</select>
+	  <resultMap type="Talk" id="talk">
+		<id column="t_id" property="t_id"/>
+		<result column="t_fromid" property="t_fromid"/>
+		<result column="t_toid" property="t_toid"/>
+		<result column="t_text" property="t_text"/>
+		<result column="t_time" property="t_time"/>
+		<result column="t_title" property="t_title"/>
+	
+		<association property="businesser" javaType="Businesser">
+		   <id column="b_id" property="b_id"/>
+	       <result column="b_name" property="b_name"/>
+	        <result column="b_password" property="b_password"/>
+	         <result column="b_phone" property="b_phone"/>
+	          <result column="b_telephone" property="b_telephone"/>
+	           <result column="b_companyname" property="b_companyname"/>
+	            <result column="b_shorter" property="b_shorter"/>
+	       		   			
+		</association> 	 
+	
+	 </resultMap>  
+	
+	
+	<select id="getListTalk" resultType="Talk">
+		select * from Talk 
+	</select>
+
+
+	<delete id="deleteTalk" parameterType="int">
+	   delete Talk  where t_id=#{id}
+	</delete>
+	
+	<!-- 商家逻辑删除对话 -->
+	<update id="deleteTalbus" parameterType="Talk">
+	   update talk set t_flagbus='f' where t_id=#{id}
+	</update>
+	
+	<!-- 用户逻辑删除对话 -->
+	<update id="deleteTalper" parameterType="Talk">
+	   update talk set t_flagper='f' where t_id=#{id}
+	</update>
+	
+	  <!-- 选择查询 -->
+ <select id="getSelectTalk" resultMap="Talk">
+		select talk.*,person.* from talk,person 		
+			<where>		  
+			 	talk.t_toid=person.p_id and talk.t_fromid=#{t_fromid} and talk.t_flagbus='t'
+				 <if test="name !=null and name !=''">
+				 and person.p_name like '%${name}%' 
+				</if>	 							
+			</where>		
+	</select> 
+	<resultMap type="Talk" id="Talk">
+		<id column="t_id" property="t_id"/>
+		<result column="t_fromid" property="t_fromid"/>
+		<result column="t_toid" property="t_toid"/>
+		<result column="t_text" property="t_text"/>
+		<result column="t_time" property="t_time"/>
+		<result column="t_title" property="t_title"/>
+		
+		<association property="person" javaType="Person">
+		   <id column="p_id" property="p_id"/>
+	       <result column="p_name" property="p_name"/>	
+		   <result column="p_password" property="p_password"/>
+		   <result column="P_passwords" property="P_passwords"/>
+		   <result column="P_mail" property="P_mail"/>
+		   <result column="p_state" property="p_state"/>				
+		</association>  
+	 </resultMap>  
+
+	 
+ <!-- <select id="getSelectTalk" resultMap="Talk">
+	select talk.*,person.* from talk,person where talk.t_toid=person.p_id and talk.t_fromid=#{t_fromid} and talk.t_flagbus='t' order by t_time desc
+ </select>
+     
+	<resultMap type="Talk" id="Talk">
+		<id column="t_id" property="t_id"/>
+		<result column="t_fromid" property="t_fromid"/>
+		<result column="t_toid" property="t_toid"/>
+		<result column="t_text" property="t_text"/>
+		<result column="t_time" property="t_time"/>
+		<result column="t_title" property="t_title"/>
+	
+		<association property="person" javaType="Person">
+		   <id column="p_id" property="p_id"/>
+	       <result column="p_name" property="p_name"/>	
+		   <result column="p_password" property="p_password"/>
+		   <result column="P_passwords" property="P_passwords"/>
+		   <result column="P_mail" property="P_mail"/>
+		   <result column="p_state" property="p_state"/>				
+		</association> 	 
+	
+	 </resultMap>   -->
+</mapper>

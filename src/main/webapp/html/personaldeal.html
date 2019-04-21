@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<link href="../css/layer.css" rel="stylesheet"  type="text/css" id="layui_layer_skinlayercss" />
+<script src="../js/layer.js" type="text/javascript"></script>
+ <style type="text/css">
+   #fonttext{
+    float:left;
+   }
+   #layertab{
+			 display:none; 
+			 height:200px;
+			 width:650px ; 
+			}
+			.bgc{
+			background-color: #EEEEEE;
+			float:left;
+			width:90px;
+			height:30px;
+			padding-top: 20px;
+			}
+			
+			input{
+			border-radius:9px;
+			width:100px;
+			
+			}
+			
+			#label{
+	
+	padding:4px;
+	background-color:#FFCC66 ;
+	color: white;
+	border-radius: 6px;
+	font-size: 1.34em;
+	}
+   
+   #talktext{
+   padding: 5px;
+   border: soild 1px red;
+   }
+  /*  .look,.update,.delete,.quxiao{
+     background-color: #F4A460;
+	color: white;
+	border-radius:30px;
+   }
+    
+   .look:hover,.update:hover,.delete:hover,.quxiao:hover{
+     
+	 background-color: #FFB90F;
+	
+   } */
+   .xiu{
+   background-color: #F4A460;
+	color: white;
+	border-radius:10px;
+	padding: 8px;
+	padding-left: 10px;
+	margin-right: 3px;
+	
+   }
+   .xiu:hover{
+    background-color: #FFB90F;
+   }
+   body .demo-class .layui-layer-title{background:#FFCC66; color:white; padding-right: 220px}
+ </style>
+		<script type="text/javascript">
+		
+		 var CurrPage=1;
+		  var Pagenum=6;
+		  var Count;
+		  var CountPage;//总页数
+		$(function(){
+			$("#layertab").hide();
+			$("#hidden").hide();
+			
+ a();
+ $("#fontpage2").html(CurrPage);
+
+
+ });
+ 
+
+	
+	function a(){
+		
+		var path="../deal/getUserDeal";
+
+		$.post(path,function(data){	
+			 Count=data.length;//总数量
+			 CountPage=Math.ceil(Count/6);
+ 			 $("#fontpage1").html(CountPage);
+		var string="<thead><tr><th>序号</th><th>订单号</th><th>发货人姓名</th><th>收货人姓名</th><th>申请时间</th><th>运输状态</th><th>操作A</th><th>操作B</th><th>操作C</th><th>操作D</th></tr></thead>";
+			for(var  i=6*(CurrPage-1);i<=6*CurrPage-1;i++){
+ 				if(i<=Count-1&&i>=0){			
+				var num=i+1;
+			    var id=data[i].d_id;				
+				 var d_number=data[i].d_number;
+				/* var d_weight=data[i].d_weight; 
+				var d_price=data[i].d_price; */
+				var d_fromname=data[i].d_fromname;
+				var d_toname=data[i].d_toname;
+				var d_time=data[i].d_time;	
+				var d_state=data[i].d_state;
+				var look="<td class=look id="+id+"><font class=xiu>查看</font></td>";
+				var update="<td class=update id="+id+"><font class=xiu>写评价</font></td>";
+				var delet="<td class=delete id="+id+"><font class=xiu>删除</font></td>";
+				var quxiao="<td class=quxiao id="+id+"><font class=xiu>撤销</font></td>";
+				string+="<tbody><tr><td>"+num+"</td><td>"+d_number+"</td><td>"+d_fromname+"</td><td>"+d_toname+"</td><td>"+d_time+"</td><td>"+d_state+"</td>"+look+update+delet+quxiao+"<tr></tbody>";						
+			}}
+			$(".tablelist").html(string);
+			$("td").css("border","solid 1px #d7a372");
+			
+	    },"json")			 		
+ 	}
+	
+	 $(function(){	         					
+			$(".page1").on("click",function(){
+				var s=$(this).attr("id");
+				if(s=="shou"){
+					CurrPage=1;
+					$("#fontpage2").html(CurrPage);
+					a();
+				}
+				if(s=="wei"){
+					CurrPage=CountPage;	
+					$("#fontpage2").html(CurrPage);
+					a();
+				}
+				if(s=="shang"){
+					if(CurrPage>1){
+					
+					CurrPage=CurrPage-1;
+					$("#fontpage2").html(CurrPage);
+					
+					a();
+					}
+				}
+				if(s=="xia"){
+					if(CurrPage<CountPage){
+				
+					CurrPage=CurrPage+1;
+					$("#fontpage2").html(CurrPage);
+					
+					a();
+					}
+				}
+				
+			});	  		
+	});	
+$(function(){
+	$(".tablelist").on("click",".look",function(){	
+ 		var id=$(this).attr("id");	
+ 		var path="../deal/getIdDeal";
+ 		$.post(path,{"id":id},function(data){	
+ 			
+ 			 var d_number=data.d_number	
+ 			 $("#d_number").val(d_number);
+ 			 var d_state=data.d_state;
+ 			$("#d_state").val(d_state);
+ 			 var d_weight=data.d_weight; 
+ 			$("#d_weight").val(d_weight);			
+ 			 var d_price=data.d_price;
+ 			$("#d_price").val(d_price);			
+			 var d_frommail=data.d_frommail;
+			 $("#d_frommail").val(d_frommail);			 
+			 var d_fromname=data.d_fromname;
+			 $("#d_fromname").val(d_fromname);			 
+			 var d_fromphone=data.d_fromphone;
+			 $("#d_fromphone").val(d_fromphone);			 
+			 var d_fromtelephone=data.d_fromtelephone;
+			 $("#d_fromtelephone").val(d_fromtelephone);			 
+			 var d_fromaddress=data.d_fromaddress;
+			 $("#d_fromaddress").val(d_fromaddress);	
+			 var d_tomail=data.d_tomail;	
+			 $("#d_tomail").val(d_tomail);
+			 var d_toname=data.d_toname;
+			 $("#d_toname").val(d_toname);		 
+			 var d_tophone=data.d_tophone;
+			 $("#d_tophone").val(d_tophone);		 
+			 var d_totelephone=data.d_totelephone;
+			 $("#d_totelephone").val(d_totelephone);			 
+			 var d_toaddress=data.d_toaddress;
+			 $("#d_toaddress").val(d_toaddress);		 
+			 var d_time=data.d_time;
+			 $("#d_time").val(d_time);			 
+			 var d_remark=data.d_remark;
+			 $("#d_remark").val(d_remark);
+			  layer.open({
+				  type: 1 //Page层类型
+				   ,area: '1270px' 
+				,skin: 'demo-class'
+			      ,offset: ['70px', '50px']
+				  ,title: '详细信息'
+				  ,shade: 0.2 //遮罩透明度
+				  ,shadeClose: true
+				  ,btn:"确定"		
+				  ,content:$("#layertab")
+				});     
+ 		},"json")
+ 	
+ 		
+ 	}); 
+});
+
+
+ 
+$(function(){
+
+		$(".tablelist").on("click",".update",function(){	
+	 		var e_d_id=$(this).attr("id");
+	 		 $("#e_d_id").val(e_d_id);
+	 		var path="../deal/getIdDeal";
+	 		$.post(path,{"id":e_d_id},function(data){				
+					var d_state=data.d_state;					
+					 if(d_state=='到站'){						 
+						 layer.open({						
+								type:1,
+								title:'写评价',				
+								area:'430px',
+								skin: 'demo-class',
+								offset: ['200px', '500px'],
+								shade: 0.2,
+								content:$("#hidden"),
+								btn:['确认','取消'],
+								yes:function(index, layero){			
+				 					$("#talks").submit();
+									
+								    layer.close(index);   
+								},
+								cancel:function(index){							
+								}
+							});	
+							}
+							else{
+								alert("请物件到站后再评价");
+								return false;
+								}
+													
+	 		    
+	 		},"json");
+	 		
+	 		
+	 				
+		
+	 	});					       
+	});
+ 	
+	
+$(function(){
+	$(".tablelist").on("click",".delete",function(){	
+ 		var id=$(this).attr("id");			
+ 		var falg=confirm("你确定删除吗");
+ 				if(falg==false){
+ 					return false;
+ 				}else{
+ 					var paths="../deal/deleteDeals";
+ 					$.post(paths,{"id":id},function(data){
+ 						 Count=data.length;//总数量
+ 						 CountPage=Math.ceil(Count/6);
+ 			 			 $("#fontpage1").html(CountPage);
+ 						var string="<thead><tr><th>序号</th><th>订单号</th><th>发货人姓名</th><th>收货人姓名</th><th>申请时间</th><th>运输状态</th><th>操作A</th><th>操作B</th><th>操作C</th><th>操作D</th></tr></thead>";
+ 						for(var  i=6*(CurrPage-1);i<=6*CurrPage-1;i++){
+ 			 				if(i<=Count-1&&i>=0){			
+ 							var num=i+1;
+ 						    var id=data[i].d_id;				
+ 							 var d_number=data[i].d_number;
+ 							/* var d_weight=data[i].d_weight; 
+ 							var d_price=data[i].d_price; */
+ 							var d_fromname=data[i].d_fromname;
+ 							var d_toname=data[i].d_toname;
+ 							var d_time=data[i].d_time;	
+ 							var d_state=data[i].d_state;
+ 							var look="<td class=look id="+id+"><font class=xiu>查看</font></td>";
+ 							var update="<td class=update id="+id+"><font class=xiu>写评价</font></td>";
+ 							var delet="<td class=delete id="+id+"><font class=xiu>删除</font></td>";
+ 							var quxiao="<td class=quxiao id="+id+"><font class=xiu>撤销</font></td>";
+ 							string+="<tbody><tr><td>"+num+"</td><td>"+d_number+"</td><td>"+d_fromname+"</td><td>"+d_toname+"</td><td>"+d_time+"</td><td>"+d_state+"</td>"+look+update+delet+quxiao+"<tr></tbody>";						
+						}}
+ 						$(".tablelist").html(string);
+ 										
+ 					},"json");
+ 		}
+	
+ 	});					       
+});
+
+$(function(){
+	$(".tablelist").on("click",".quxiao",function(){	
+ 		var id=$(this).attr("id");	
+ 		var path="../deal/getIdDeal";
+ 		$.post(path,{"id":id},function(data){	
+ 			 var d_state=data.d_state;			 
+ 			  if(d_state!=="待接收"){
+ 				  alert("商家已经接收订单,该订单不能撤销");
+ 				  return false;
+ 			  }else{
+ 				  var f=confirm("你确定撤销点单吗");
+ 				  if(f==true){
+ 					 var paths="../deal/deleteDealuser";
+ 					$.post(paths,{"id":id},function(data){
+ 						 Count=data.length;//总数量
+ 						 CountPage=Math.ceil(Count/6);
+ 			 			 $("#fontpage1").html(CountPage);
+ 						var string="<thead><tr><th>序号</th><th>订单号</th><th>发货人姓名</th><th>收货人姓名</th><th>申请时间</th><th>运输状态</th><th>操作A</th><th>操作B</th><th>操作C</th><th>操作D</th></tr></thead>";
+ 						for(var  i=6*(CurrPage-1);i<=6*CurrPage-1;i++){
+ 			 				if(i<=Count-1&&i>=0){			
+ 							var num=i+1;
+ 						    var id=data[i].d_id;				
+ 							 var d_number=data[i].d_number;							
+ 							var d_fromname=data[i].d_fromname;
+ 							var d_toname=data[i].d_toname;
+ 							var d_time=data[i].d_time;	
+ 							var d_state=data[i].d_state;
+ 							var look="<td class=look id="+id+"><font class=xiu>查看</font></td>";
+ 							var update="<td class=update id="+id+"><font class=xiu>写评价</font></td>";
+ 							var delet="<td class=delete id="+id+"><font class=xiu>删除</font></td>";
+ 							var quxiao="<td class=quxiao id="+id+"><font class=xiu>撤销</font></td>";
+ 							string+="<tbody><tr><td>"+num+"</td><td>"+d_number+"</td><td>"+d_fromname+"</td><td>"+d_toname+"</td><td>"+d_time+"</td><td>"+d_state+"</td>"+look+update+delet+quxiao+"<tr></tbody>";											
+ 						}}
+ 						$(".tablelist").html(string);
+ 						
+ 			 
+  		},"json");
+ 				  }
+ 			  }
+ 			   
+ 				
+ 	
+ 		}); 	 
+ 	}); 
+}); 
+
+ 
+</script>
+	</head>
+	<body>
+		<table class="tablelist">
+			
+						</table>
+				<div id="d2_3_1">共<font id="fontpage1"></font>	页;当前为<font id="fontpage2"></font>页 
+			   	    <button id="shou" class="page1">首页</button><button id="shang" class="page1">上一页</button>
+			   	    <button id="xia" class="page1">下一页</button> <button id="wei" class="page1">尾页</button>
+			          
+			    </div>
+	<table id="layertab" border="1px">
+			<tr><td class="bgc">订单号:</td><td ><input name="d_number" type="text" id="d_number" class="scinput"/></td>
+			<td class="bgc">发货人姓名:</td><td ><input name="d_fromname" type="text" id="d_fromname" class="scinput"/></td>
+			<td class="bgc">发货人地址:</td><td><input name="d_fromaddress" type="text" id="d_fromaddress" class="scinput"/></td>
+			<td class="bgc">收货人邮箱:</td><td ><input name="d_tomail" type="text" id="d_tomail" class="scinput"/></td></tr>
+			
+			
+			<tr><td class="bgc">交易状态:</td><td ><input name="d_state" type="text" id="d_state" class="scinput"/></td>
+			<td class="bgc">发货人手机号:</td><td ><input name="d_fromphone" type="text" id="d_fromphone" class="scinput"/></td>
+			<td class="bgc">收货人姓名:</td><td ><input name="d_toname" type="text" id="d_toname" class="scinput"/></td>
+			<td class="bgc">收货人地址:</td><td ><input name="d_toaddress" type="text" id="d_toaddress" class="scinput"/></td></tr>
+			
+			
+			<tr><td class="bgc">货物重量:</td><td ><input name="d_weight" type="text" id="d_weight" class="scinput"/></td>
+			<td class="bgc">发货人电话:</td><td ><input name="d_fromtelephone" type="text" id="d_fromtelephone" class="scinput"/></td>
+			<td class="bgc">收货人手机号:</td><td ><input name="d_tophone" type="text" id="d_tophone" class="scinput"/></td>
+			<td class="bgc">时间:</td><td ><input name="d_time" type="text" id="d_time" class="scinput"/></td></tr>
+			
+			
+			<tr><td class="bgc">货物价格:</td><td ><input name="d_price" type="text" id="d_price" class="scinput"/></td>
+			<td class="bgc">发货人邮箱:</td><td ><input name="d_frommail" type="text" id="d_frommail" class="scinput"/></td>
+			<td class="bgc">收货人电话:</td><td ><input name="d_totelephone" type="text" id="d_totelephone" class="scinput"/></td>
+			<td class="bgc">备注:</td><td ><input name="d_remark" type="text" id="d_remark" class="scinput"/></td></tr>			
+	</table>
+	 <div id="hidden"> 
+          <form method="post" action="../evaluate/addevaluate" id="talks">  
+          <input type="hidden" value="" id="e_d_id" name="e_d_id"/>   
+                  
+          <font id="fonttext">填写内容:</font>
+            <textarea id="talktext" name="talktext" style="height:200px;width:300px; border: 1px solid gainsboro;"></textarea> 
+               
+         
+          </form> 
+    
+        </div>
+	</body>
+</html>

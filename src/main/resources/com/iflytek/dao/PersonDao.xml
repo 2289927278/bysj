@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.dao.PersonDao">
+	<select id="getPerson" resultType="Person">
+		select * from person where p_id=#{id} and p_state=1
+	</select>
+	
+	<select id="getListPerson" resultType="Person">
+		select * from Person where p_state=1
+	</select>
+	
+	<select id="login" resultType="Person">
+		select * from Person where p_password=#{password} and p_mail=#{name}
+	</select>
+	
+	<select id="applogin" resultType="Person">
+		select * from Person where p_phone=#{phone} and p_password=#{password} 
+	</select>
+		
+	<insert id="register" parameterType="Person">
+	   insert into person values(seq.nextval,#{p_name},#{p_password},
+	   #{p_passwords},#{p_mail},1,#{p_phone},#{p_time})
+	</insert>
+	
+	<update id="updatePerson" parameterType="Person">
+	   update person set p_name=#{p_name},p_password=#{p_password},p_passwords=#{p_passwords},p_mail=#{p_mail},p_state=1 where p_id=#{p_id}
+	</update>
+	
+<!-- 逻辑删除用户 -->
+	<update id="deletePerson" parameterType="int">
+	   update person set p_state=0 where p_id=#{id}
+	</update>
+	
+	<!-- 选择查询 -->
+	<select id="getSelectPerson" resultType="Person">
+		select * from Person 		
+			<where>
+			   	p_state=1 
+				<if test="username !=null and username !=''">
+				and	p_name like CONCAT(CONCAT('%', #{username}), '%') 
+				</if>		
+			</where>		
+	</select>
+
+</mapper>
